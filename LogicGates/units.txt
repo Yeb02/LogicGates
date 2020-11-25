@@ -1,0 +1,6 @@
+INPUT 0 2 #ffffff # # #
+OUTPUT 2 0 #ffffff # # #
+NOT 1 1 #ff0000 # # #
+AND 2 1 #8888ee # # #
+NAND 2 1 #ff00ff INPUT_OUTPUT_AND_NOT_ #3,0,_#0,0,_0,1,_#2,0,_# 0_3_2_1_
+OR 2 1 #ff00ff INPUT_OUTPUT_NAND_NOT_NOT_ #2,0,_#3,0,_4,0,_#0,0,_#0,1,_# 0_3_4_2_1_
