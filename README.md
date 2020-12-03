@@ -6,7 +6,7 @@ Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.y
 -Select a block in green on the bottom left, displace it by clicking on it.   
 -Click on a node and release on another to link them. If you click on a node from the input block, it will only change it's value. To link those, select another node first.  
 -Click on an input node to delete its connection.  
--An output node can be link to several inputs.  
+-An output node can be linked to several input nodes.  
 -Press the button to register a field's input on the top left. 
 -Press the create button to create a bloc from what is on the screen.  
 -Press the clear button to clear the workbench.   
