@@ -2,7 +2,9 @@
 Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.youtube.com/watch?v=QZwneRb-zqA
 
 ## USER INSTRUCTIONS:  
--Line 428, replace False by True if you want the blocks you created to be erased when you will launch the script again (remove an anwanted block manually in the units.txt file).  
+-Run logic.py
+-Make sure units.txt is closed while logic.py is running
+-Line 427, replace False by True if you want the blocks you created to be erased when you will launch the script again (remove an anwanted block manually in the units.txt file).  
 -Select a block in green on the bottom left, displace it by clicking on it.   
 -Click on a node and release on another to link them. If you click on a node from the input block, it will only change it's value. To link those, select another node first.  
 -Click on an input node to delete its connection.  
@@ -13,6 +15,7 @@ Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.y
 
 
 ## BUGS (TODO):  
+-Change input/output block's size before linking it.
 -Blocks can't be removed yet (except by clearing the whole workbench)  
 -Do not create unnamed blocks, or give the same name to different blocks, and use only letters.  
 -Linking an output to several inputs will work but the display will behave wrongly, use clear once you have built your new block.   
