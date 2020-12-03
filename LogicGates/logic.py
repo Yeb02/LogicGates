@@ -96,7 +96,7 @@ class screen():
                 except: pass
 
         self.components = [component(unit(self.possible_units[0] + [self], True), [],[-1]*self.input_nb,  50, int(self.height/2), [],  [], [0]*self.input_nb, []),
-                           component(unit(self.possible_units[1] + [self], True), [[-1, -1]]*self.output_nb, [], self.width - 50, int(self.height/2), [], [0]*self.output_nb, [], [[]]* self.ouput_nb)]
+                           component(unit(self.possible_units[1] + [self], True), [[-1, -1]]*self.output_nb, [], self.width - 50, int(self.height/2), [], [0]*self.output_nb, [], [[]]* self.output_nb)]
         self.components[0].unite.output, self.components[0].unite.nb_out = self.input_nb * [0], self.input_nb
         self.components[1].unite.input, self.components[1].unite.nb_in = self.output_nb * [0], self.output_nb
         self.components_id = [0, 1]
@@ -121,10 +121,10 @@ class screen():
             self.components[0].unite.output = self.components[0].unite.output + [0] * (n - self.components[1].unite.nb_out)
             self.components[0].ComponentsOutIDs = self.components[0].ComponentsOutIDs + [-1] * (n - self.components[1].unite.nb_out)
             self.components[0].unite.nb_out = n
-            self.output_nb = n
+            self.input_nb = n
         elif n < self.input_nb:  #TODO remove les liens.
             self.components[0].unite.output = self.components[0].unite.output[:n]
-            self.output_nb = n
+            self.input_nb = n
             for elt in self.components[0].lines[n + 1:]:
                 try: self.canvas.delete(elt[0])
                 except: pass
