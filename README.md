@@ -2,11 +2,9 @@
 Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.youtube.com/watch?v=QZwneRb-zqA
 
 ## USER INSTRUCTIONS:  
--Line 428, replace False by True if you want the blocks you created to be erased when you will launch the script again.  
-You can always remove an anwanted block manually in the units.txt file.  
+-Line 428, replace False by True if you want the blocks you created to be erased when you will launch the script again (remove an anwanted block manually in the units.txt file).  
 -Select a block in green on the bottom left, displace it by clicking on it.   
--Click on a node and release on another to link them. If you click on an input node, it will only change it's value.  
-To link them, select another node first.  
+-Click on a node and release on another to link them. If you click on a node from the input block, it will only change it's value. To link those, select another node first.  
 -Click on an input node to delete its connection.  
 -An output node can be link to several inputs.  
 -Press the button to register a field's input on the top left. 
