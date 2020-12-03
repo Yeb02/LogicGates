@@ -25,12 +25,13 @@ class screen():
         self.selected_object_id = -1
         self.float_id = []
         self.width, self.height = width, height
-        f = open('units.txt', 'r').readlines()
-        self.possible_units = [f[k][:-1].split(" ") for k in range(len(f))]
+        with open('units.txt', 'r') as f:
+            l = f.readlines()
+            self.possible_units = [l[k][:-1].split(" ") for k in range(len(l))]
         self.input_nb, self.output_nb = int(self.possible_units[0][2]), int(self.possible_units[1][1])
         self.components_id = [0, 1]                                             #unit, ComponentsInIDs, ComponentsOutIDs, x, y, DrawingIDs, input, output, lines
-        self.components = [component(unit(self.possible_units[0] + [self], True), [],[-1]*self.input_nb,  50, int(self.height/2), [],  [], [0]*self.input_nb, [[]]* self.input_nb),
-                           component(unit(self.possible_units[1] + [self], True), [[-1, -1]]*self.output_nb, [], self.width - 50, int(self.height/2), [], [0]*self.input_nb, [], [])]
+        self.components = [component(unit(self.possible_units[0] + [self], True), [],[-1]*self.input_nb,  50, int(self.height/2), [],  [], [0]*self.input_nb, []),
+                           component(unit(self.possible_units[1] + [self], True), [[-1, -1]]*self.output_nb, [], self.width - 50, int(self.height/2), [], [0]*self.output_nb, [], [[]]*self.output_nb)]
 
     def update_GUI(self):
         for (i, elt) in enumerate(self.possible_units[2:]):
@@ -40,7 +41,8 @@ class screen():
 
         for (i, elt) in enumerate(self.components):
             elt.DrawingIDs = self.draw_block(elt.unite, elt.x, elt.y)
-            elt.lines = [[self.draw_line(elt.unite.input[k], e[1], e[2], e[3]), e[1], e[2], e[3]] if e != [] else [] for (k, e) in enumerate(elt.lines)]
+            elt.lines = [[self.draw_line(e[2], e[1], i, e[3]), e[1], e[2], e[3]] if e != [] else [] for e in elt.lines]
+
 
         button_undo = tk.Button(root, text="Undo", command = self.onClicked_undoButton, anchor = "w")
         button_undo.configure(width = 10, activebackground = "#33B5E5", bg="#0088bb")
@@ -78,7 +80,7 @@ class screen():
 
     def onClicked_unitButton(self, i):
         u = unit(self.possible_units[i + 2] + [self], True)
-        self.components.append(component(u, u.nb_in*[-1], u.nb_out*[-1], self.mousex, self.mousey, [], u.nb_in*[0], u.nb_out*[0], [[] * u.nb_out]))
+        self.components.append(component(u, u.nb_in*[-1], u.nb_out*[-1], self.mousex, self.mousey, [], u.nb_in*[0], u.nb_out*[0], [[]] * u.nb_in))
         self.selected_object = self.components[-1].unite
         self.float_id = self.draw_block(self.selected_object, self.mousex, self.mousey)
         self.selected_object_id = len(self.components) - 1
@@ -93,8 +95,8 @@ class screen():
                 try: self.canvas.delete(i)
                 except: pass
 
-        self.components = [component(unit(self.possible_units[0] + [self], True), [],[-1]*self.input_nb,  50, int(self.height/2), [],  [], [0]*self.input_nb, [[]]* self.input_nb),
-                           component(unit(self.possible_units[1] + [self], True), [[-1, -1]]*self.output_nb, [], self.width - 50, int(self.height/2), [], [0]*self.input_nb, [], [])]
+        self.components = [component(unit(self.possible_units[0] + [self], True), [],[-1]*self.input_nb,  50, int(self.height/2), [],  [], [0]*self.input_nb, []),
+                           component(unit(self.possible_units[1] + [self], True), [[-1, -1]]*self.output_nb, [], self.width - 50, int(self.height/2), [], [0]*self.output_nb, [], [[]]* self.ouput_nb)]
         self.components[0].unite.output, self.components[0].unite.nb_out = self.input_nb * [0], self.input_nb
         self.components[1].unite.input, self.components[1].unite.nb_in = self.output_nb * [0], self.output_nb
         self.components_id = [0, 1]
@@ -105,7 +107,9 @@ class screen():
 
     def onClicked_createButton(self): #data = [name, nb_in, nb_out, color, SCREEN ! components, components_id, screen]
         unit([self.name, self.input_nb, self.output_nb, self.create_color, self.components, self.components_id, self], False)
-        self.possible_units.append(open('units.txt', 'r').readlines()[-1][:-1].split(" "))
+        f = open('units.txt', 'r')
+        self.possible_units.append(f.readlines()[-1][:-1].split(" "))
+        f.close()
         self.update_GUI()   #Pour l'instant, créer: le bloc identité ou un bloc sans nom font bugger.
 
     def ChangeName(self):
@@ -226,6 +230,7 @@ class screen():
         return [-1,-1] #ne devrait pas arriver
 
     def dynamic_display(self):
+        self.lines = []
         for (i,elt) in enumerate(self.components_id):
             try: self.components[elt].unite.input = [self.components[unit_i].unite.output[out_i]
                                                  if unit_i!= -1 else 0 for (unit_i, out_i) in self.components[elt].ComponentsInIDs]
@@ -236,7 +241,8 @@ class screen():
                 if e != []:
                     try: self.canvas.delete(e[0])
                     except: pass
-            self.components[elt].lines = [[self.draw_line(elt, e[1], e[2], e[3]),e[1], e[2], e[3]] if e != [] else [] for (k, e) in enumerate(self.components[elt].lines)]
+
+            self.components[elt].lines = [[self.draw_line(e[2], e[1], elt, e[3]), e[1], e[2], e[3]] if e != [] else [] for e in self.components[elt].lines]
             for e in self.components[elt].DrawingIDs:
                 try: self.canvas.delete(e)
                 except: pass
@@ -250,17 +256,17 @@ class screen():
                     sending_unit_id, out_id, receiving_unit_id, in_id = self.node_id[3], self.node_id[4], self.node_id[0], self.node_id[1]
                 else:
                     sending_unit_id, out_id, receiving_unit_id, in_id = self.node_id[0], self.node_id[1], self.node_id[3], self.node_id[4]
-                self.components[sending_unit_id].lines[out_id] = [self.draw_line(sending_unit_id, out_id, receiving_unit_id, in_id), out_id, receiving_unit_id, in_id]
+                self.components[receiving_unit_id].lines[in_id] = [self.draw_line(sending_unit_id, out_id, receiving_unit_id, in_id), out_id, sending_unit_id, in_id]
                 self.connect(sending_unit_id, out_id, receiving_unit_id, in_id)
                 self.node_id = [-1, -1, False] * 2
-                self.dynamic_display()
+                #self.dynamic_display()
 
         elif time() - self.time_since_press < .4 and pos[0] == 2 and self.node_id[2] == self.node_id[5] and self.node_id[0] == self.node_id[3] and self.node_id[2]:
             if self.components[pos[1]].ComponentsInIDs[pos[2]] != [-1, -1]:
                 try:
                     self.canvas.delete(self.components[self.components[pos[1]].ComponentsInIDs[pos[2]][0]].lines[self.components[pos[1]].ComponentsInIDs[pos[2]][1]][0])
                     self.components[self.components[pos[1]].ComponentsInIDs[pos[2]][0]].lines[self.components[pos[1]].ComponentsInIDs[pos[2]][1]] = []
-                except: print("blyat")
+                except: pass
                 self.disconnect(self.components[pos[1]].ComponentsInIDs[pos[2]][0], self.components[pos[1]].ComponentsInIDs[pos[2]][1], pos[1], pos[2])
             self.dynamic_display()
         self.holding_line = False
@@ -380,8 +386,10 @@ class unit(screen):
 
 
     def get_line_in_file(self, name):
-        f = [elt.split(" ")[0] for elt in open('units.txt', 'r').readlines()]
-        return open('units.txt', 'r').readlines()[f.index(name)].split()
+        with open('units.txt', 'r') as f:
+            l = f.readlines()
+            e = [elt.split(" ")[0] for elt in l]
+            return l[e.index(name)].split(" ")
 
     def get_output_coordinate(self, out_id, x, y):
         return x + self.taillex + self.taille/3, y - self.tailley  + 2*(out_id + 1)*self.tailley/(self.nb_out + 1)
@@ -390,8 +398,6 @@ class unit(screen):
         return x - self.taillex - self.taille/3, y - self.tailley  + 2*(in_id + 1)*self.tailley/(self.nb_in + 1)
 
     def draw(self, x, y):
-        if len(self.input) != self.nb_in:
-            print(len(self.input), self.nb_in)
         fill_in = [self.input[k-1] * 'red' + (1 - self.input[k-1])*'black' for k in range(1, self.nb_in + 1)]
         fill_out = [self.output[k-1] * 'red' + (1 - self.output[k-1])*'black' for k in range(1, self.nb_out + 1)]
         active_in = [self.input[k-1] * 'black' + (1 - self.input[k-1])*'red' for k in range(1, self.nb_in + 1)]
@@ -417,8 +423,8 @@ class unit(screen):
                                                     for (unit_i, out_i) in self.unit_components[id][1]]
                 self.unit_components[id][0].evaluate()
             self.output = self.unit_components[1][0].input
-#Dans le fichiers txt annexe:
-if True: #reset ou pas à chaque boot
+
+if False: #If true, blocks are reset at boot
     with open('units.txt', 'a') as f:
         f.truncate(0)
         f.write("INPUT 0 2 #ffffff # # #" + "\n" +
