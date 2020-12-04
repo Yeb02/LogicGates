@@ -40,6 +40,12 @@ class screen():
             button1_window = self.canvas.create_window(80*(i+1), self.height - 25, anchor="nw", window=button1)
 
         for (i, elt) in enumerate(self.components):
+            for id in elt.DrawingIDs:
+                try: self.canvas.delete(id)
+                except: pass
+            for e in elt.lines:
+                try: self.canvas.delete(e[0])
+                except: pass
             elt.DrawingIDs = self.draw_block(elt.unite, elt.x, elt.y)
             elt.lines = [[self.draw_line(e[2], e[1], i, e[3]), e[1], e[2], e[3]] if e != [] else [] for e in elt.lines]
 
@@ -107,9 +113,8 @@ class screen():
 
     def onClicked_createButton(self): #data = [name, nb_in, nb_out, color, SCREEN ! components, components_id, screen]
         unit([self.name, self.input_nb, self.output_nb, self.create_color, self.components, self.components_id, self], False)
-        f = open('units.txt', 'r')
-        self.possible_units.append(f.readlines()[-1][:-1].split(" "))
-        f.close()
+        with open('units.txt', 'r') as f:
+            self.possible_units.append(f.readlines()[-1][:-1].split(" "))
         self.update_GUI()   #Pour l'instant, créer: le bloc identité ou un bloc sans nom font bugger.
 
     def ChangeName(self):
