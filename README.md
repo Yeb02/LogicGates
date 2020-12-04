@@ -15,7 +15,7 @@ Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.y
 
 
 ## BUGS (TODO):  
--Change input/output block's size before linking it.
+-Change input/output block's size before linking their nodes.   
 -Blocks can't be removed yet (except by clearing the whole workbench)  
 -Do not create unnamed blocks, or give the same name to different blocks, and use only letters.     
 -Sometimes connections do not update, displace a block to force update if the results on screen are not the ones expected.   
