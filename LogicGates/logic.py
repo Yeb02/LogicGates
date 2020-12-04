@@ -18,7 +18,6 @@ class screen():
         self.InEntry = 0
         self.OutEntry = 0
         self.holding_line = False
-        self.create_color = "#ff00ff"
         self.time_since_press = time()
         self.mousex, self.mousey = 0,  0
         self.selected_object = None
@@ -112,7 +111,9 @@ class screen():
         self.update_GUI()
 
     def onClicked_createButton(self): #data = [name, nb_in, nb_out, color, SCREEN ! components, components_id, screen]
-        unit([self.name, self.input_nb, self.output_nb, self.create_color, self.components, self.components_id, self], False)
+        hexa = ['7', '8', '9', '10', 'a', 'b', 'c', 'd', 'e', 'f']
+        random_color = "#" + "".join([hexa[int(10*random.random())] for k in range(5)])  #grand mystère : range 5 en crée 6. WTF ?
+        unit([self.name, self.input_nb, self.output_nb, random_color, self.components, self.components_id, self], False)
         with open('units.txt', 'r') as f:
             self.possible_units.append(f.readlines()[-1][:-1].split(" "))
         self.update_GUI()   #Pour l'instant, créer: le bloc identité ou un bloc sans nom font bugger.
