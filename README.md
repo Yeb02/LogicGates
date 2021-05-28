@@ -3,6 +3,10 @@ Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.y
 
 Projet d'humanité, dans la catégorie serious game. Je ferai peut-être un couplage avec un jeu de plateforme que j'avais codé en python (pygame) pour en faire un puzzle.
 
+## SCREENSHOT:
+![solarized palette](https://github.com/Yeb02/LogicGates/blob/main/screenshot.png)
+
+
 ## USER INSTRUCTIONS:  
 -Run logic.py
 -Make sure units.txt is closed while logic.py is running
@@ -22,5 +26,3 @@ Projet d'humanité, dans la catégorie serious game. Je ferai peut-être un coup
 -Do not create unnamed blocks, or give the same name to different blocks, and use only letters.     
 -Sometimes connections do not update, displace a block to force update if the results on screen are not the ones expected.   
 
-## SCREENSHOT:
-![solarized palette](https://github.com/Yeb02/LogicGates/blob/main/screenshot.png)
