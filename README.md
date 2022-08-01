@@ -1,8 +1,6 @@
 # LogicGates
 Creating computers from AND and NOT, inspired by Sebastian Lague : https://www.youtube.com/watch?v=QZwneRb-zqA
 
-Projet d'humanité, dans la catégorie serious game. Je ferai peut-être un couplage avec un jeu de plateforme que j'avais codé en python (pygame) pour en faire un puzzle.
-
 ## SCREENSHOT:
 ![solarized palette](https://github.com/Yeb02/LogicGates/blob/main/screenshot.png)
 
